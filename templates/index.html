@@ -12,7 +12,7 @@
     {% for sprint in sprints %}
     <a href="#">{{ sprint.name }}</a><br>
     {% endfor %}
-    <a href="{{url_for('/add_sprint')}}">Добавить спринт</a>
+    <a href="{{url_for('add_sprint')}}">Добавить спринт</a>
     {% endblock %}
 </body>
 </html>

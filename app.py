@@ -6,7 +6,6 @@ import db
 app = Flask(__name__)
 
 
-
 def initialize_database_if_needed():
     if not os.path.exists(db.DB_NAME):
         db.init_db()
@@ -26,7 +25,7 @@ def index():
     print(sprints)
     return render_template("index.html", sprints=sprints)
 
-@app.route("/add_sprint")
+@app.route("/add_sprint", methods=['GET', 'POST'])
 def add_sprint():
     if request.method == "POST":
         name = request.form["name"]

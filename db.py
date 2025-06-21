@@ -60,8 +60,8 @@ def init_db():
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         topic TEXT NOT NULL,
         description TEXT,
-        date DATE NOT NULL
-        keep  TEXT NOT NULL,
+        date DATE NOT NULL,
+        to_keep TEXT NOT NULL,
         to_drop TEXT NOT NULL,
         try TEXT NOT NULL
     )   
@@ -109,18 +109,18 @@ def add_standup(done, todo, blockers, date):
     conn.commit()
     conn.close()
 
-def add_retro(topic, date, keep, to_drop, try_, description=None):
+def add_retro(topic, date, to_keep, to_drop, try_, description=None):
     conn = get_db()
     cur = conn.cursor()
     if description:
         cur.execute(
-            "INSERT INTO retro(topic, description, date, keep, to_drop, try) VALUES(?, ?, ?, ?, ?, ?)",
-            (topic, description, date, keep, to_drop, try_)
+            "INSERT INTO retro(topic, description, date, to_keep, to_drop, try) VALUES(?, ?, ?, ?, ?, ?)",
+            (topic, description, date, to_keep, to_drop, try_)
         )
     else:
         cur.execute(
-            "INSERT INTO retro(topic, date, keep, to_drop, try) VALUES(?, ?, ?, ?, ?)",
-            (topic, date, keep, to_drop, try_)
+            "INSERT INTO retro(topic, date, to_keep, to_drop, try) VALUES(?, ?, ?, ?, ?)",
+            (topic, date, to_keep, to_drop, try_)
         )
     conn.commit()
     conn.close()
@@ -201,7 +201,7 @@ def update_standup(standup_id, done=None, todo=None, blockers=None, date=None):
         conn.commit()
     conn.close()
 
-def update_retro(retro_id, topic=None, description=None, date=None, keep=None, to_drop=None, try_=None):
+def update_retro(retro_id, topic=None, description=None, date=None, to_keep=None, to_drop=None, try_=None):
     conn = get_db()
     cur = conn.cursor()
     fields = []
@@ -215,9 +215,9 @@ def update_retro(retro_id, topic=None, description=None, date=None, keep=None, t
     if date is not None:
         fields.append("date = ?")
         values.append(date)
-    if keep is not None:
-        fields.append("keep = ?")
-        values.append(keep)
+    if to_keep is not None:
+        fields.append("to_keep = ?")
+        values.append(to_keep)
     if to_drop is not None:
         fields.append("to_drop = ?")
         values.append(to_drop)
