@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Добавить спринт</title>
+</head>
+<body>
+    <form action="/add_sprint" method="post">
+        <label>Название:</label><br>
+        <input type="text" name="name" required><br><br>
+
+        <label>Описание:</label><br>
+        <textarea name="description"></textarea><br><br>
+
+        <label>Начало (YYYY-MM-DD):</label><br>
+        <input type="date" name="start_date" required><br><br>
+
+        <label>Конец (YYYY-MM-DD):</label><br>
+        <input type="date" name="end_date" required><br><br>
+
+        <button type="submit">Добавить спринт</button>
+    </form>
+</body>
+</html>

@@ -7,6 +7,22 @@ def get_db():
     conn.row_factory = sqlite3.Row  # чтобы в read запросах получать row по ключу (типо не [1], а ['name'])
     return conn
 
+def init_statuses_once():
+    conn = get_db()
+    cur = conn.cursor()
+    
+    cur.execute("SELECT name FROM statuses")
+    existing = set(name for (name,) in cur.fetchall())
+
+    default_statuses = ["Backlog", "To Do", "In Progress", "Done"]
+
+    for status in default_statuses:
+        if status not in existing:
+            cur.execute("INSERT INTO statuses(name) VALUES(?)", (status,))
+    
+    conn.commit()
+    conn.close()
+
 def init_db():
     conn = get_db()
     cur = conn.cursor()
@@ -51,8 +67,11 @@ def init_db():
     )   
 """
     )
+    init_statuses_once()
     conn.commit()
     conn.close()
+
+
 
 def add_sprint(name, start_date, end_date,description=None):
     conn = get_db()

@@ -8,8 +8,11 @@
 <body>
     {% block content %} 
     
-    <h1>Вы попали на главную!</h1>
-
+    <h1>Ваши спринты</h1>
+    {% for sprint in sprints %}
+    <a href="#">{{ sprint.name }}</a><br>
+    {% endfor %}
+    <a href="{{url_for('/add_sprint')}}">Добавить спринт</a>
     {% endblock %}
 </body>
 </html>
