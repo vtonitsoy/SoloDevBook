@@ -42,11 +42,11 @@ def init_db():
     CREATE TABLE IF NOT EXISTS tasks(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
-        description TEXT NOT NULL,
+        description TEXT,
         created_at DATE NOT NULL,
         status_id INTEGER NOT NULL,
         sprint_id INTEGER NOT NULL,
-        FOREIGN KEY (status_id) REFERENCES statuses(id) ON DELETE CASCADE,
+        FOREIGN KEY (status_id) REFERENCES statuses(id),
         FOREIGN KEY (sprint_id) REFERENCES sprints(id) ON DELETE CASCADE
     );
     CREATE TABLE IF NOT EXISTS standups(
@@ -89,12 +89,12 @@ def add_sprint(name, start_date, end_date,description=None):
     conn.commit()
     conn.close()
 
-def add_task(name, description, created_at, status_id, sprint_id):
+def add_task(name, description, created_at, status_name, sprint_id):
     conn = get_db()
     cur = conn.cursor()
     cur.execute(
-        "INSERT INTO tasks(name, description, created_at, status_id, sprint_id) VALUES(?, ?, ?, ?, ?)",
-        (name, description, created_at, status_id, sprint_id)
+        "INSERT INTO tasks(name, description, created_at, status_id, sprint_id) VALUES(?, ?, ?, (SELECT id FROM statuses WHERE name = ?), ?)",
+        (name, description, created_at, status_name, sprint_id)
     )
     conn.commit()
     conn.close()
@@ -262,6 +262,16 @@ def get_tasks_by_sprint(sprint_id):
     result = cur.fetchall()
     conn.close()
     return result
+
+def get_sprint_by_id(id):
+    conn = get_db()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM sprints WHERE id = ?", (id,))
+    result = cur.fetchone()
+    conn.close()
+    return result
+
+
 
 def get_all_standups():
     conn = get_db()

@@ -1,12 +1,13 @@
 from flask import Flask, render_template, request, redirect
 import os
+import datetime
 
 import db
 
 app = Flask(__name__)
 
 
-def initialize_database_if_needed():
+def initialize_db():
     if not os.path.exists(db.DB_NAME):
         db.init_db()
     else:
@@ -36,5 +37,25 @@ def add_sprint():
         return redirect("/")
     return render_template("add_sprint.html")
 
-initialize_database_if_needed()
+@app.route("/sprint<int:id>")
+def sprint(id):
+    sprint = db.get_sprint_by_id(id)
+    tasks = db.get_tasks_by_sprint(id)
+    statuses = db.get_all_statuses()
+    return render_template("sprint.html", sprint=sprint, tasks=tasks, statuses=statuses)
+
+@app.route("/sprint<int:sprint_id>/add_task>", methods=['GET', 'POST'])
+def add_task(sprint_id):
+    if request.method == "POST":
+        title = request.form["title"]
+        description = request.form.get("description", None)
+        status = request.form["status"]
+        created_at = datetime.datetime.now()
+        db.add_task(title,description,created_at,status,sprint_id)
+        return redirect(f"/sprint{sprint_id}")
+    else:
+        statuses = db.get_all_statuses()
+        return render_template("add_task.html", statuses=statuses, sprint_id=sprint_id)
+
+initialize_db()
 app.run(debug=True)
