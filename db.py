@@ -89,12 +89,12 @@ def add_sprint(name, start_date, end_date,description=None):
     conn.commit()
     conn.close()
 
-def add_task(name, description, created_at, status_name, sprint_id):
+def add_task(name, description, created_at, status_id, sprint_id):
     conn = get_db()
     cur = conn.cursor()
     cur.execute(
-        "INSERT INTO tasks(name, description, created_at, status_id, sprint_id) VALUES(?, ?, ?, (SELECT id FROM statuses WHERE name = ?), ?)",
-        (name, description, created_at, status_name, sprint_id)
+        "INSERT INTO tasks(name, description, created_at, status_id, sprint_id) VALUES(?, ?, ?, ?, ?)",
+        (name, description, created_at, status_id, sprint_id)
     )
     conn.commit()
     conn.close()

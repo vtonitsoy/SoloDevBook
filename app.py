@@ -44,14 +44,14 @@ def sprint(id):
     statuses = db.get_all_statuses()
     return render_template("sprint.html", sprint=sprint, tasks=tasks, statuses=statuses)
 
-@app.route("/sprint<int:sprint_id>/add_task>", methods=['GET', 'POST'])
+@app.route("/sprint<int:sprint_id>/add_task", methods=['GET', 'POST'])
 def add_task(sprint_id):
     if request.method == "POST":
-        title = request.form["title"]
+        name = request.form["name"]
         description = request.form.get("description", None)
-        status = request.form["status"]
+        status = int(request.form["status"])
         created_at = datetime.datetime.now()
-        db.add_task(title,description,created_at,status,sprint_id)
+        db.add_task(name,description,created_at,status,sprint_id)
         return redirect(f"/sprint{sprint_id}")
     else:
         statuses = db.get_all_statuses()

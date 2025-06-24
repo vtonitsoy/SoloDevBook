@@ -1,24 +1,111 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Добавить спринт</title>
+    <style>
+        :root {
+            --primary-color: #3b82f6;
+            --secondary-color: #f8fafc;
+            --text-color: #374151;
+            --border-radius: 8px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .form-container {
+            background-color: #fff;
+            max-width: 500px;
+            width: 100%;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-radius: var(--border-radius);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: 600;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #cbd5e1;
+            border-radius: var(--border-radius);
+            box-sizing: border-box;
+            font-size: 1em;
+        }
+
+        textarea {
+            resize: vertical;
+            height: 100px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: var(--primary-color);
+            color: #fff;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #2563eb;
+        }
+
+        @media (max-width: 600px) {
+            .form-container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.4em;
+            }
+        }
+    </style>
 </head>
 <body>
-    <form action="/add_sprint" method="post">
-        <label>Название:</label><br>
-        <input type="text" name="name" required><br><br>
+    <div class="form-container">
+        <h1>Добавить спринт</h1>
+        <form action="/add_sprint" method="post">
 
-        <label>Описание:</label><br>
-        <textarea name="description"></textarea><br><br>
+            <label for="name">Название:</label>
+            <input type="text" id="name" name="name" required>
 
-        <label>Начало (YYYY-MM-DD):</label><br>
-        <input type="date" name="start_date" required><br><br>
+            <label for="description">Описание:</label>
+            <textarea id="description" name="description"></textarea>
 
-        <label>Конец (YYYY-MM-DD):</label><br>
-        <input type="date" name="end_date" required><br><br>
+            <label for="start_date">Начало (YYYY-MM-DD):</label>
+            <input type="date" id="start_date" name="start_date" required>
 
-        <button type="submit">Добавить спринт</button>
-    </form>
+            <label for="end_date">Конец (YYYY-MM-DD):</label>
+            <input type="date" id="end_date" name="end_date" required>
+
+            <button type="submit">Добавить спринт</button>
+
+        </form>
+    </div>
 </body>
 </html>
