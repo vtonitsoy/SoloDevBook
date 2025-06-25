@@ -4,118 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Спринт: {{ sprint.name }}</title>
-    <style>
-        :root {
-            --primary-color: #10b981;
-            --secondary-color: #f9fafb;
-            --text-color: #111827;
-            --border-radius: 8px;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--secondary-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .container {
-            max-width: 700px;
-            width: 100%;
-            background-color: #fff;
-            padding: 30px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            border-radius: var(--border-radius);
-        }
-
-        h1 {
-            font-size: 1.8em;
-            margin-bottom: 20px;
-            color: var(--primary-color);
-        }
-
-        p {
-            font-size: 1em;
-            margin: 8px 0;
-        }
-
-        ul {
-            list-style-type: none;
-            padding: 0;
-            margin-top: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        ul li {
-            padding: 12px;
-            background-color: #e5e7eb;
-            border-radius: var(--border-radius);
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .add-task-btn {
-            display: inline-block;
-            text-decoration: none;
-            color: var(--primary-color);
-            border: 2px solid var(--primary-color);
-            padding: 10px 15px;
-            border-radius: var(--border-radius);
-            transition: background-color 0.2s, color 0.2s;
-            font-weight: bold;
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .add-task-btn:hover {
-            background-color: var(--primary-color);
-            color: #fff;
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                padding: 20px;
-            }
-
-            h1 {
-                font-size: 1.5em;
-            }
-
-            .add-task-btn, ul li {
-                padding: 8px 10px;
-            }
-        }
-    </style>
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
-<body>
-    <div class="container">
+<body class="body-centered">
+    <div class="card-custom-lg container">
         {% block content %}
-
-        <h1>Спринт: {{ sprint.name }}</h1>
-
+        <h1 class="heading-primary heading-primary-lg">Спринт: {{ sprint.name }}</h1>
         <p><strong>Дата начала:</strong> {{ sprint.start_date }}</p>
         <p><strong>Дата окончания:</strong> {{ sprint.end_date }}</p>
         <p><strong>Описание:</strong> {{ sprint.description }}</p>
-
         <h2>Задачи:</h2>
-        <ul>
+        <ul class="list-custom">
             {% for task in tasks %}
-                <li>
+                <li class="list-item-custom">
                     <span><strong>Название:</strong> {{ task.name }}</span>
                     <span><strong>Описание:</strong> {{ task.description }}</span>
                     <span><strong>Создано:</strong> {{ task.created_at }}</span>
-                    <span><strong>Статус:</strong> {{ statuses[task.status_id].name }}</span>
+                    <span><strong>Статус:</strong> {{ statuses[task.status_id-1].name }}</span>
                 </li>
             {% endfor %}
         </ul>
-
-        <a href="/sprint{{ sprint.id }}/add_task" class="add-task-btn">Добавить задачу</a>
+        <a href="/sprint{{ sprint.id }}/add_task" class="btn btn-outline-special add-task-btn">Добавить задачу</a>
         {% endblock %}
     </div>
 </body>
